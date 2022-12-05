@@ -15,7 +15,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 def reworked_stream(model_name='VGG-Face', detector_backend='opencv', distance_metric='cosine',
-                    enable_face_analysis=True, source=0, time_threshold=5, frame_threshold=1):
+                    enable_face_analysis=True, source=0, time_threshold=5, frame_threshold=1,display_frame = False):
     '''
         param model_name:  one of face analysis models
         param detector_backend: one of face detection models
@@ -24,8 +24,10 @@ def reworked_stream(model_name='VGG-Face', detector_backend='opencv', distance_m
         param source:
         param time_threshold: how many second analyzed image will be displayed
         param frame_threshold: how many frames required to focus on face
+        param display_frame : display the analyzed video stream ,false to production moode
 
-        return: lables
+        as the result labels are sent to the api and printed to the console
+        return: none
     '''
     report = []
     face_detector = FaceDetector.build_model(detector_backend)
@@ -145,7 +147,7 @@ def reworked_stream(model_name='VGG-Face', detector_backend='opencv', distance_m
             freeze = False
             freezed_frame = 0
 
-        else:
+        if display_frame:
             cv2.imshow('img', img)
         #exit condition not working
         if cv2.waitKey(1) & 0xFF == ord('q'):  # press q to quit
